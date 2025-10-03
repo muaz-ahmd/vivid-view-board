@@ -50,12 +50,13 @@ export default {
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
           accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        },
+        chart: {
+          teal: "hsl(var(--chart-teal))",
+          red: "hsl(var(--chart-red))",
+          green: "hsl(var(--chart-green))",
+          blue: "hsl(var(--chart-blue))",
         },
       },
       borderRadius: {
