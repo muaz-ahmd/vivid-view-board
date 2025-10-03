@@ -34,18 +34,18 @@ const AppSidebar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <aside className="w-64 min-h-screen bg-sidebar border-r border-border flex flex-col">
+    <aside className="w-64 h-screen bg-sidebar border-r border-border flex flex-col fixed left-0 top-0 z-50">
       <div className="p-6">
         <h1 className="text-2xl font-bold tracking-tight">R.O.A.D.S.</h1>
       </div>
 
-      <nav className="flex-1 px-4">
+      <nav className="flex-1 px-4 overflow-y-auto">
         <ul className="space-y-1">
           <li>
             <NavLink
-              to="/"
+              to="/about"
               className={`block px-4 py-2.5 rounded-lg font-medium transition-colors ${
-                isActive("/") ? "bg-sidebar-accent" : "hover:bg-sidebar-accent/50"
+                isActive("/about") ? "bg-sidebar-accent" : "hover:bg-sidebar-accent/50"
               }`}
             >
               About
@@ -55,22 +55,24 @@ const AppSidebar = () => {
             <NavLink
               to="/dashboard"
               className={`block px-4 py-2.5 rounded-lg font-medium transition-colors ${
-                isActive("/dashboard") ? "bg-sidebar-accent" : "hover:bg-sidebar-accent/50"
+                isActive("/dashboard") || isActive("/video-processing") ? "bg-sidebar-accent" : "hover:bg-sidebar-accent/50"
               }`}
             >
               Dashboard
             </NavLink>
           </li>
-          <li>
-            {location.pathname === "/video-processing" && (
+          {(location.pathname === "/dashboard" || location.pathname === "/video-processing") && (
+            <li>
               <NavLink
                 to="/video-processing"
-                className="block px-8 py-2 text-sm rounded-lg bg-sidebar-accent"
+                className={`block px-8 py-2 text-sm rounded-lg transition-colors ${
+                  isActive("/video-processing") ? "bg-sidebar-accent" : "hover:bg-sidebar-accent/50"
+                }`}
               >
                 Video Processing
               </NavLink>
-            )}
-          </li>
+            </li>
+          )}
           <li>
             <NavLink
               to="/manual-test"

@@ -24,10 +24,10 @@ const App = () => (
       <BrowserRouter>
         <div className="flex w-full min-h-screen">
           <AppSidebar />
-          <main className="flex-1">
+          <main className="flex-1 ml-64">
             <Routes>
-              <Route path="/" element={<About />} />
-              <Route path="/home" element={<Home />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/video-processing" element={<VideoProcessing />} />
               <Route path="/manual-test" element={<ManualTest />} />

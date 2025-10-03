@@ -99,34 +99,64 @@ const ManualTest = () => {
             <div className="grid grid-cols-2 gap-6">
               <Card className="p-6 bg-secondary border border-border">
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">Hard-Braking :</span>
-                    <span>{metrics.hardBraking}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.hardBraking}
+                      onChange={(e) => setMetrics({...metrics, hardBraking: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">Tailgating :</span>
-                    <span>{metrics.tailgating}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.tailgating}
+                      onChange={(e) => setMetrics({...metrics, tailgating: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">No. of Lanes :</span>
-                    <span>{metrics.lanes}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.lanes}
+                      onChange={(e) => setMetrics({...metrics, lanes: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
                 </div>
               </Card>
 
               <Card className="p-6 bg-secondary border border-border">
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">Platoon weight :</span>
-                    <span>{metrics.platoonWeight}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.platoonWeight}
+                      onChange={(e) => setMetrics({...metrics, platoonWeight: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">Average Speed :</span>
-                    <span>{metrics.avgSpeed}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.avgSpeed}
+                      onChange={(e) => setMetrics({...metrics, avgSpeed: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center gap-4">
                     <span className="font-medium">Queue Length :</span>
-                    <span>{metrics.queueLength}</span>
+                    <Input 
+                      type="number" 
+                      value={metrics.queueLength}
+                      onChange={(e) => setMetrics({...metrics, queueLength: e.target.value})}
+                      className="w-20 text-center"
+                    />
                   </div>
                 </div>
               </Card>
@@ -135,7 +165,12 @@ const ManualTest = () => {
             <Card className="p-6 bg-secondary border border-border">
               <div className="flex justify-center items-center gap-4">
                 <span className="font-medium">Distance Between Intersection</span>
-                <span className="font-semibold">{distance}</span>
+                <Input 
+                  type="number" 
+                  value={distance}
+                  onChange={(e) => setDistance(e.target.value)}
+                  className="w-24 text-center"
+                />
               </div>
             </Card>
 
