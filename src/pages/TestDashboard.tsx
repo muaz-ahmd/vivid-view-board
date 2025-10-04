@@ -1,40 +1,36 @@
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
+import { useEffect, useState } from "react";
 
 const TestDashboard = () => {
-  const trafficSignals = [
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
+
+  useEffect(() => {
+    const storedResult = localStorage.getItem("trafficAnalysisResult");
+    if (storedResult) {
+      setAnalysisResult(JSON.parse(storedResult));
+    }
+  }, []);
+
+  // Default data when no analysis has been run
+  const trafficSignals = analysisResult ? [
+    {
+      id: `TS-A0${analysisResult.signal_id}`,
+      time: `${analysisResult.t_clear} sec`,
+      trafficScore: analysisResult.traffic_score,
+      safetyPenalty: analysisResult.safety_penalty,
+      greenWaveBonus: analysisResult.priority_bonus,
+      cps: analysisResult.cps_score,
+    }
+  ] : [
     {
       id: "TS-A01",
-      time: "18 sec",
-      trafficScore: 20,
-      safetyPenalty: 10,
-      greenWaveBonus: 8,
-      cps: 22,
-    },
-    {
-      id: "TS-A02",
-      time: "20 sec",
-      trafficScore: 22,
-      safetyPenalty: 12,
-      greenWaveBonus: 10,
-      cps: 24,
-    },
-    {
-      id: "TS-A03",
-      time: "12 sec",
-      trafficScore: 24,
-      safetyPenalty: 14,
-      greenWaveBonus: 12,
-      cps: 26,
-    },
-    {
-      id: "TS-A04",
-      time: "26 sec",
-      trafficScore: 26,
-      safetyPenalty: 16,
-      greenWaveBonus: 6,
-      cps: 28,
+      time: "-- sec",
+      trafficScore: 0,
+      safetyPenalty: 0,
+      greenWaveBonus: 0,
+      cps: 0,
     },
   ];
 

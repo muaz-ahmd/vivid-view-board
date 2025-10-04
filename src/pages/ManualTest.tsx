@@ -1,12 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const ManualTest = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [trafficSignal, setTrafficSignal] = useState("1");
+  const [isLoading, setIsLoading] = useState(false);
   const [vehicles, setVehicles] = useState({
     car: "29",
     bike: "29",
@@ -24,8 +28,58 @@ const ManualTest = () => {
   });
   const [distance, setDistance] = useState("29");
 
-  const handleSubmit = () => {
-    navigate("/test-dashboard");
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const payload = {
+        vehicle_counts: {
+          car: parseInt(vehicles.car),
+          bike: parseInt(vehicles.bike),
+          truck: parseInt(vehicles.truck),
+          ambulance: parseInt(vehicles.ambulance),
+          bus: parseInt(vehicles.bus),
+        },
+        hard_brakes: parseInt(metrics.hardBraking),
+        tailgating_events: parseInt(metrics.tailgating),
+        lanes: parseInt(metrics.lanes),
+        platoon_weight: parseFloat(metrics.platoonWeight),
+        distance_m: parseFloat(distance),
+        avg_speed_m_s: parseFloat(metrics.avgSpeed),
+        queue_length: parseFloat(metrics.queueLength),
+      };
+
+      const response = await fetch(`http://localhost:8000/intersection1/traffic${trafficSignal}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to process traffic data");
+      }
+
+      const result = await response.json();
+      
+      // Store the result in localStorage
+      localStorage.setItem("trafficAnalysisResult", JSON.stringify(result));
+      
+      toast({
+        title: "Success",
+        description: "Traffic analysis completed successfully",
+      });
+      
+      navigate("/test-dashboard");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to connect to backend. Make sure your FastAPI server is running on localhost:8000",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -36,13 +90,18 @@ const ManualTest = () => {
         <Card className="p-8 bg-card border border-border shadow-sm">
           <div className="space-y-8">
             <div className="flex items-center gap-4">
-              <label className="text-lg font-semibold min-w-[140px]">Traffic Signal</label>
-              <Input 
-                type="number" 
-                value={trafficSignal}
-                onChange={(e) => setTrafficSignal(e.target.value)}
-                className="w-20"
-              />
+              <label className="text-lg font-semibold min-w-[140px]">Traffic Signal No.</label>
+              <Select value={trafficSignal} onValueChange={setTrafficSignal}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1">1</SelectItem>
+                  <SelectItem value="2">2</SelectItem>
+                  <SelectItem value="3">3</SelectItem>
+                  <SelectItem value="4">4</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div>
@@ -179,8 +238,9 @@ const ManualTest = () => {
                 onClick={handleSubmit}
                 size="lg"
                 className="px-12"
+                disabled={isLoading}
               >
-                Submit
+                {isLoading ? "Processing..." : "Submit"}
               </Button>
             </div>
           </div>
